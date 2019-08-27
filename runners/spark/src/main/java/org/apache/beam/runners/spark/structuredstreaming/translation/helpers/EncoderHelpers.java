@@ -96,7 +96,7 @@ public class EncoderHelpers {
   */
 
   /** A way to construct encoders using generic serializers. */
-  private <T> Encoder<T> fromBeamCoder(Coder<T> coder, Class<T> claz){
+  public static <T> Encoder<T> fromBeamCoder(Coder<T> coder, Class<T> claz){
 
     List<Expression> serialiserList = new ArrayList<>();
     serialiserList.add(new EncodeUsingBeamCoder<>(claz, coder));
@@ -105,7 +105,8 @@ public class EncoderHelpers {
         SchemaHelpers.binarySchema(),
         false,
         JavaConversions.collectionAsScalaIterable(serialiserList).toSeq(),
-        new DecodeUsingBeamCoder<>(claz, coder), classTag);
+        new DecodeUsingBeamCoder<>(claz, coder),
+        classTag);
 
 /*
     ExpressionEncoder[T](
