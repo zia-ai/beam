@@ -126,12 +126,12 @@ public class EncoderHelpers {
 */
   }
 
-  private static class EncodeUsingBeamCoder<T> extends UnaryExpression implements NonSQLExpression {
+  public static class EncodeUsingBeamCoder<T> extends UnaryExpression implements NonSQLExpression {
 
     private Expression child;
     private Coder<T> beamCoder;
 
-    private EncodeUsingBeamCoder(Expression child, Coder<T> beamCoder) {
+    public EncodeUsingBeamCoder(Expression child, Coder<T> beamCoder) {
       this.child = child;
       this.beamCoder = beamCoder;
     }
@@ -231,13 +231,13 @@ public class EncoderHelpers {
     override def dataType: DataType = BinaryType
   }*/
 
-  private static class DecodeUsingBeamCoder<T> extends UnaryExpression implements  NonSQLExpression{
+  public static class DecodeUsingBeamCoder<T> extends UnaryExpression implements  NonSQLExpression{
 
     private Expression child;
     private ClassTag<T> classTag;
     private Coder<T> beamCoder;
 
-    private DecodeUsingBeamCoder(Expression child, ClassTag<T> classTag, Coder<T> beamCoder) {
+    public DecodeUsingBeamCoder(Expression child, ClassTag<T> classTag, Coder<T> beamCoder) {
       this.child = child;
       this.classTag = classTag;
       this.beamCoder = beamCoder;
