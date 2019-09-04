@@ -18,9 +18,9 @@
 package org.apache.beam.runners.spark.structuredstreaming.translation.helpers;
 
 import static org.apache.spark.sql.types.DataTypes.BinaryType;
+import static scala.compat.java8.JFunction.func;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -370,23 +370,23 @@ case class DecodeUsingSerializer[T](child: Expression, tag: ClassTag[T], kryo: B
 
   private static <T> String lazyInitBeamCoder(CodegenContext ctx, Class<Coder<T>> coderClass) {
     String beamCoderInstance = "beamCoder";
-    ctx.addImmutableStateIfNotExists(coderClass.getName(), beamCoderInstance, v -> {
+    ctx.addImmutableStateIfNotExists(coderClass.getName(), beamCoderInstance, func(v1 -> {
       /*
     CODE GENERATED
     v = (coderClass) coderClass.newInstance();
      */
-      List<String> parts = new ArrayList<>();
-      parts.add("");
-      parts.add(" = (");
-      parts.add(") ");
-      parts.add(".newInstance();");
-      StringContext sc = new StringContext(JavaConversions.collectionAsScalaIterable(parts).toSeq());
-      List<Object> args = new ArrayList<>();
-      args.add(v);
-      args.add(coderClass.getName());
-      args.add(coderClass.getName());
-      return sc.s(JavaConversions.collectionAsScalaIterable(args).toSeq());
-    });
+        List<String> parts = new ArrayList<>();
+        parts.add("");
+        parts.add(" = (");
+        parts.add(") ");
+        parts.add(".newInstance();");
+        StringContext sc = new StringContext(JavaConversions.collectionAsScalaIterable(parts).toSeq());
+        List<Object> args = new ArrayList<>();
+        args.add(v1);
+        args.add(coderClass.getName());
+        args.add(coderClass.getName());
+        return sc.s(JavaConversions.collectionAsScalaIterable(args).toSeq());
+      }));
     return beamCoderInstance;
   }
 
