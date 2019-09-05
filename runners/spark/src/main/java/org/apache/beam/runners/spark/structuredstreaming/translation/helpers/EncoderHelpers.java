@@ -388,12 +388,16 @@ case class DecodeUsingSerializer[T](child: Expression, tag: ClassTag[T], kryo: B
     ctx.addImmutableStateIfNotExists(coderClass.getName(), beamCoderInstance, func(v1 -> {
       /*
     CODE GENERATED
+    try {
     v1 = coderClass.class.getDeclaredConstructor().newInstance();
+    } catch (Exception e) {
+      throw new RuntimeException(org.apache.beam.sdk.util.UserCodeException.wrap(e));
+    }
      */
       List<String> parts = new ArrayList<>();
-        parts.add("");
+        parts.add("try {");
         parts.add(" = ");
-        parts.add(".class.getDeclaredConstructor().newInstance();");
+        parts.add(".class.getDeclaredConstructor().newInstance();} catch (Exception e) {throw new RuntimeException(org.apache.beam.sdk.util.UserCodeException.wrap(e));}");
         StringContext sc = new StringContext(JavaConversions.collectionAsScalaIterable(parts).toSeq());
         List<Object> args = new ArrayList<>();
         args.add(v1);
